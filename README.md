@@ -1,112 +1,114 @@
-BlenderGPT - Local LLM with Intel GPUs
-
-
-BlenderGPT is an extension for Blender that allows you to control the software using natural language commands. It integrates large language models (LLMs) like GPT-4 directly into Blender’s interface, converting simple English commands into Python scripts that can be executed within Blender. This updated version uses a local model running on Intel GPUs through oneAPI and LLM-IPEX, coupled with llama.cpp, FastAPI, and Gradio UI for a high-performance and efficient Blender control solution.
-
+Blender Scripting Assistant with Local GPT Model Integration
 Overview
-This project is a custom port of the original BlenderGPT to work with locally hosted language models powered by Intel hardware and optimizations. Instead of relying on OpenAI’s cloud-based GPT models, this setup allows you to run the model on your local machine using Intel OneAPI for GPU acceleration, LLM-IPEX (Intel Extension for PyTorch), and llama.cpp for model inference. The FastAPI server handles communication between Blender and the LLM, while Gradio provides a user-friendly UI.
+This project is a powerful Blender extension that integrates a local GPT-based language model (e.g., LLaMA, GPT-Neo) for automating Python script generation within Blender. The tool allows users to interact with Blender through a natural language interface, enabling users to easily generate Blender Python scripts for various tasks, including object manipulation, animation, and more.
+
+The extension uses a local server to interact with the model, providing efficient, customizable, and cost-effective AI assistance for Blender scripting tasks.
+*This was mainly developed for Intel Arc GPUs using LLM-IPex/llama.cpp*
 
 Features
-Local Model Deployment: Run large language models locally on Intel GPUs using oneAPI and LLM-IPEX optimizations for improved performance.
-Blender Control via Natural Language: Generate Python scripts for Blender using simple English commands.
-FastAPI & Gradio UI: A lightweight and fast API server built with FastAPI to manage interactions with the LLM, and Gradio for the user interface.
-Intel Optimizations: Leverage Intel’s oneAPI and LLM-IPEX for better performance, especially on Intel CPUs and GPUs.
-Installation
-System Requirements
-Blender 3.4 or later
-Intel GPU (for optimal performance using oneAPI and LLM-IPEX)
-Python 3.8+ (for running the server)
-FastAPI (for serving the local model API)
-Gradio (for the interactive UI)
-Steps to Install
-Clone the repository:
+Key Features:
+Local Model Integration:
 
-Run the following command to clone this repository:
+Use of a local server (LLaMA, GPT-Neo, etc.) for model generation, ensuring data privacy and reduced cost compared to cloud-based models.
+Seamless interaction with Blender to generate Python code directly for Blender tasks.
+Blender UI Integration:
 
-bash
-Copy code
-git clone https://github.com/Ac1dBomb/BlenderGPT.git
-Set up your Python environment:
+Gradio UI embedded within Blender, making it easy to communicate with the model and receive results instantly.
+Real-time feedback and a simple interface for script generation.
+Script Generation:
 
-Create and activate a Python virtual environment (optional but recommended):
+Automatically generate Blender Python code based on user input.
+Ability to customize input prompts to generate specific code for tasks like object manipulation, animations, or procedural generation.
+Advanced Error Handling and Logging:
 
-bash
-Copy code
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-Install dependencies:
+Built-in error logging for both model communication and Blender scripting, providing clear feedback in case of issues.
+Blender Integration:
 
-Install the required Python packages from the requirements.txt file:
-
-bash
-Copy code
-pip install -r requirements.txt
-Configure Intel GPU:
-
-Ensure your system has the Intel OneAPI toolkit installed and configured for Intel GPU acceleration.
-You can install the Intel Extension for PyTorch (LLM-IPEX) by following this guide.
-Install Blender Add-on:
-
-Open Blender and navigate to Edit > Preferences > Add-ons > Install.
-Select the downloaded ZIP file or folder of the cloned repository and install it.
-Enable the BlenderGPT add-on by checking the checkbox next to it in the Add-ons tab.
-Configure the server:
-
-The local model server needs to be running. Navigate to the directory where server.py is located and start the FastAPI server:
-
-bash
-Copy code
-uvicorn server:app --reload
-This will start the FastAPI server on http://127.0.0.1:8000, and it will be accessible to Blender.
-
-Usage
-Running the Add-on
-In Blender:
-
-Once the add-on is installed and enabled, open the 3D View and press N to open the sidebar.
-Locate the BlenderGPT tab on the sidebar.
-Type a natural language command (e.g., "create a cube at the origin") in the input field.
-Click the Execute button to generate and execute the corresponding Blender Python code.
-Interactive User Interface:
-
-The Gradio UI allows you to interact with the model through the browser. Once the FastAPI server is running, you can also open http://127.0.0.1:7860 in your web browser to interact with the model directly.
-How It Works
-Blender Command:
-The user provides a natural language command through the Blender interface (in the sidebar or Gradio UI).
-Server Request:
-The BlenderGPT add-on sends a request to the FastAPI server running locally, which is connected to the language model hosted by llama.cpp.
-Model Inference:
-The FastAPI server sends the request to the local LLM model (using llama.cpp and LLM-IPEX for Intel optimizations) to generate the corresponding Python script for Blender.
-Execute Code:
-The generated Python code is returned to Blender and executed, performing the desired action.
+Simple integration with Blender's Python API, allowing seamless interaction with the generated code directly inside the Blender environment.
 Requirements
-Blender 3.4 or later
-Intel GPU with oneAPI and LLM-IPEX optimizations
-Python 3.8+
-PyTorch and Intel Extension for PyTorch (LLM-IPEX)
-llama.cpp Python bindings for LLM inference
-FastAPI and Gradio for the local model server and UI
-Dependencies
-blender (bpy)
-requests (for HTTP requests)
-gradio (for building the user interface)
-fastapi (for running the local server)
-uvicorn (ASGI server for FastAPI)
-numpy (for numerical operations)
-intel-extension-for-pytorch (for Intel GPU acceleration)
-llama-cpp-python (for llama.cpp model integration)
-loguru (for logging)
-h5py (for model manipulation, if necessary)
-For a complete list of dependencies, see the requirements.txt file.
+Blender: Blender 2.8 or newer is required.
+Python: Python 3.7 or newer.
+Local Model Server: A local server running a language model (e.g., LLaMA or GPT-Neo). The server should be capable of responding to POST requests for model generation.
+Gradio: Python library for creating interactive UIs.
+Requests: Python library to interact with the local model API.
+Dependencies:
+You can install the necessary dependencies using pip:
+
+bash
+Copy code
+pip install gradio requests
+Setup Instructions
+1. Install Blender and Python Dependencies
+Ensure you have Blender 2.8 or newer installed on your system. You will also need Python 3.7 or newer for running the extension.
+
+Next, install the required Python dependencies. Open a terminal or command prompt and run:
+
+bash
+Copy code
+pip install gradio requests
+2. Set Up the Local Model API
+To use the extension, you must have a local model server running. This could be any supported model, such as LLaMA or GPT-Neo. The local model server must expose an API that accepts POST requests for generating Python code.
+
+Example server setup:
+
+Set up the model (e.g., using Hugging Face Transformers or another framework).
+Expose an API endpoint (e.g., /generate) that accepts input and returns Python code based on a prompt.
+3. Clone the Repository
+Clone this repository to your local machine:
+
+bash
+Copy code
+git clone https://github.com/your-username/blender-scripting-assistant.git
+cd blender-scripting-assistant
+4. Install Blender Add-on
+To install the Blender extension, follow these steps:
+
+Open Blender.
+Go to Edit > Preferences > Add-ons > Install....
+Navigate to the cloned repository directory and select the __init__.py file.
+Activate the add-on by checking the box next to the add-on's name in the preferences.
+Usage
+Gradio Interface
+After installing and activating the add-on, you'll see a panel inside Blender with a Gradio interface that allows you to interact with the local GPT model. Follow these steps:
+
+Enter a Prompt: Type in a natural language description of the Blender task you want to automate (e.g., "Create a rotating cube").
+Generate Script: Press the "Generate" button. The model will process your prompt and return a Python script that you can use directly in Blender.
+Apply the Script: The script will be executed inside Blender, performing the requested task.
+Blender Scripting Flow
+The prompt is sent to the local model server via an API call.
+The model generates a Python script in response to the prompt.
+The script is returned and executed inside Blender.
+Available Configuration Options
+Model Type: You can select which model to use (GPT-4 or GPT-3.5 Turbo).
+Prompt Customization: Customize the prompt format, such as whether to include code comments, instructions, or just raw Python code.
+Advanced Features
+1. Caching Responses
+To improve performance, responses from the model can be cached locally. This avoids making repeated requests for the same prompt, saving both time and resources.
+
+2. Custom Model Parameters
+The extension allows you to customize parameters for the GPT model (e.g., temperature, max_tokens, top_p). This allows for fine-tuning the model's creativity and response length.
+
+3. Error Handling and Logging
+Comprehensive logging has been integrated to track issues with both Blender's API and the model API. Any errors are logged for easy troubleshooting.
 
 Troubleshooting
-BlenderGPT not executing commands: Ensure that the FastAPI server is running and accessible at http://127.0.0.1:8000. Check the console for any server-related errors.
-Intel GPU not detected: Make sure that Intel OneAPI and LLM-IPEX are correctly installed and configured. You can test this by running any basic PyTorch code on your GPU to verify it is being utilized.
-Slow performance: If performance is suboptimal, ensure that your Intel GPU drivers and oneAPI tools are up-to-date. Consider reducing the model size for faster inference if necessary.
-Demonstration
-You can see a demo of how this works by viewing the video below:
+Common Issues
+Local Model Server Not Responding: Ensure that the local model server is running and reachable at the correct endpoint (http://localhost:5000/generate).
+Model Response Timeout: The model may take some time to generate a response. Adjust the timeout or ensure the model is properly optimized for speed.
+Debugging
+You can access detailed logs for debugging issues related to either the local model or Blender's Python API. Logs are printed to the terminal or console window.
 
-
-
+Future Improvements
+Multilingual Support: The ability to generate scripts in different languages for users from various regions.
+Export to File: Option to export the generated scripts directly to files (e.g., .py, .txt, or .json).
+Enhanced UI: Future iterations could include more complex interfaces for editing the generated scripts directly within Blender.
 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License. See the LICENSE file for more information.
+
+Credits
+Blender: For providing the Python API and integration capabilities.
+Gradio: For building the interactive UI.
+Open-source Models: For providing the GPT-based models that power the script generation.
+Contact
+For further inquiries or feedback, please reach out to the project maintainer via email or GitHub issues.
+
